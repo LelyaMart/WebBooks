@@ -1,0 +1,22 @@
+{%extends "base.html"%}
+{%block content%}
+<h1>Главная страница</h1>
+<ul>
+  <li>
+    <b>Количество книг:</b>
+    {{num_books}}
+  </li>
+  <li>
+    <b>Количество экземпляров книг:</b>
+    {{num_instances}}
+  </li>
+  <li>
+    <b>Количество авторов:</b>
+    {{num_authors}}
+  </li>
+</ul>
+<p>
+  Количество посещений данной страницы:
+  {{num_visits}}
+</p>
+{%endblock%}

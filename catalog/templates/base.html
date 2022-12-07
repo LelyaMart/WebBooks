@@ -1,0 +1,79 @@
+{% load static %}
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>WebBooks</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{%static 'css/main.css'%}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div class="col-lg-8 mx-auto p-4 py-md-5">
+        <header class="d-flex align-items-center pb-3 mb-5 border-bottom">
+            <a href="/" class="d-flex align-items-center text-dark text-decoration-none navbar-header">
+                Каталог книг
+            </a>
+            <nav class="nav">
+                <a href="{%url 'books'%}" class="nav-link">Книги</a>
+                <a href="{%url 'authors'%}" class="nav-link">Авторы</a>
+                {%if user.is_authenticated%}
+                <a href="{%url 'my-borrowed'%}" class="nav-link">Мои заказы</a>
+                {%endif%}
+                
+            </nav>
+            <nav class="nav ms-auto">
+                {%if user.is_authenticated%}
+                <a class="nav-link disabled">{{user.get_username}}</a>
+                <a href="{% url 'logout'%}?next={{request.path}}" class="nav-link">Выйти</a>
+                {%else%}
+                <a href="{% url 'login'%}?next={{request.path}}" class="nav-link">Войти</a>
+                {%endif%}
+            </nav>
+        </header>
+        <main>
+            {%block content%}
+            {%endblock%}
+            {%block pagination%}
+            {%if is_paginated%}
+            <ul class="pagination">
+                {%if page_obj.has_previous%}
+                <li class="page-item">
+                    <a href="{{request.path}}?page={{page_obj.previous_page_number}}" class="page-link">
+                        Предыдущая
+                    </a>
+                </li>
+                {%endif%}
+                <li class="page-item disabled">
+                    <a class="page-link">
+                        {{page_obj.number}}/{{page_obj.paginator.num_pages}}
+                    </a>
+                </li>
+                {%if page_obj.has_next%}
+                <li class="page-item">
+                    <a href="{{request.path}}?page={{page_obj.next_page_number}}" class="page-link">
+                        Следующая
+                    </a>
+                </li>
+                {%endif%}
+
+            </ul>
+            {%endif%}
+            {%endblock%}
+        </main>
+        <footer>
+            НИЯУ МИФИ &middot; &copy; 2022
+        </footer>
+    </div>
+</body>
+
+</html>
